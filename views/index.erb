@@ -4,22 +4,47 @@
 <script>
   var iframe = {
     build: function() {
-      this.i = document.createElement("iframe");
-      this.i.setAttribute('style', 'width:100%;border:0');
-      document.body.appendChild(this.i);
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('style', 'width:100%;border:0');
+      document.body.appendChild(iframe);
+      this.i = iframe;
     },
 
     update: function(address) {
       this.i.setAttribute('src', address);
     }
+  };
+
+  var frameset = {
+    build: function() {
+      var frame = document.createElement('frame');
+      var fs = document.createElement('frameset');
+      fs.setAttribute('frameborder', '0');
+      fs.appendChild(frame);
+      document.body.appendChild(fs);
+      this.f = frame;
+    },
+
+    update: function(address) {
+      this.f.setAttribute('src', address);
+    }
+  };
+
+  function detectMethod() {
+    if (navigator.userAgent.match('Android')) {
+      return iframe;
+    } else {
+      return frameset;
+    }
   }
 
-  iframe.build();
-  iframe.update("<%= URI.encode(CurrentURL["address"]) %>");
+  var method = detectMethod();
+  method.build();
+  method.update("<%= URI.encode(CurrentURL["address"]) %>");
 
   client = new Faye.Client('/faye');
   client.subscribe('/url', function(msg) {
-    iframe.update(msg.address);
+    method.update(msg.address);
   });
 </script>
 </body>
