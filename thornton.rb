@@ -11,9 +11,9 @@ FayeClient = FayeServer.get_client
 
 EM.schedule do
   FayeClient.subscribe('/update_devices') do |msg|
-    url = URI.encode(msg["address"])
-    url.insert(0, 'http://') unless url =~ /^(https?|ftp):/
-    CurrentURL.replace('address' => url)
+    uri = Addressable::URI.heuristic_parse(msg["address"])
+    uri.path = "/" if uri.path.empty?
+    CurrentURL.replace('address' => uri.to_s)
 
     # TODO: Find viewport
     FayeClient.publish('/url', CurrentURL)
