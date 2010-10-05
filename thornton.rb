@@ -29,3 +29,7 @@ get '/controlpanel' do
   erb :admin
 end
 
+get '/placeholder' do
+  erb :placeholder
+end
+
