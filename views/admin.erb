@@ -1,5 +1,5 @@
 <form onsubmit="yeah(); return false">
-  <input id="url">
+  <input id="url" name="<%= CGI.escapeHTML(CurrentURL["address"]) %>">
 </form>
 
 <script src="/faye.js"></script>

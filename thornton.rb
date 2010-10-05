@@ -2,6 +2,7 @@ require 'bundler'
 Bundler.setup
 
 require 'erb'
+require 'cgi'
 require 'faye'
 require 'sinatra'
 
