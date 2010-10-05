@@ -1,0 +1,17 @@
+<form onsubmit="yeah(); return false">
+  <input id="url">
+</form>
+
+<script src="/faye.js"></script>
+<script>
+  var url = document.getElementById('url');
+  var client = new Faye.Client('/faye');
+  client.subscribe('/url', function(msg) {
+    url.value = msg.address;
+  });
+
+  function yeah() {
+    client.publish('/update_devices', { address: url.value });
+  }
+</script>
+

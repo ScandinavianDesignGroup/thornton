@@ -1,0 +1,4 @@
+require 'thornton'
+
+run FayeServer
+

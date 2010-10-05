@@ -1,0 +1,25 @@
+<style>*{margin:0;padding:0}</style> 
+<body>
+<script src="/faye.js"></script>
+<script>
+  var iframe = {
+    build: function() {
+      this.i = document.createElement("iframe");
+      this.i.setAttribute('style', 'width:100%;border:0');
+      document.body.appendChild(this.i);
+    },
+
+    update: function(address) {
+      this.i.setAttribute('src', address);
+    }
+  }
+
+  iframe.build();
+  iframe.update("<%= URI.encode(CurrentURL["address"]) %>");
+
+  client = new Faye.Client('/faye');
+  client.subscribe('/url', function(msg) {
+    iframe.update(msg.address);
+  });
+</script>
+</body>
