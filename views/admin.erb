@@ -1,4 +1,4 @@
-<form onsubmit="yeah(); return false">
+<form onsubmit="update_devices(); return false">
   <input id="url" name="<%= CGI.escapeHTML(CurrentURL["address"]) %>">
 </form>
 
@@ -6,11 +6,12 @@
 <script>
   var url = document.getElementById('url');
   var client = new Faye.Client('/faye', { timeout: 30 });
+
   client.subscribe('/url', function(msg) {
     url.value = msg.address;
   });
 
-  function yeah() {
+  function update_devices() {
     client.publish('/update_devices', { address: url.value });
   }
 </script>
