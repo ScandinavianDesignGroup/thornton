@@ -5,7 +5,7 @@
 <script src="/faye.js"></script>
 <script>
   var url = document.getElementById('url');
-  var client = new Faye.Client('/faye');
+  var client = new Faye.Client('/faye', { timeout: 30 });
   client.subscribe('/url', function(msg) {
     url.value = msg.address;
   });
