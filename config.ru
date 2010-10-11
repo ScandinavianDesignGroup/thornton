@@ -1,4 +1,4 @@
-require 'thornton'
+require './thornton'
 
 run FayeServer
 
