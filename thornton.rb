@@ -37,11 +37,11 @@ EM.schedule do
     end
 
     CurrentURL.replace('address' => uri.to_s, 'viewport' => doc.viewport.to_s)
-
-    # TODO: Find viewport
     FayeClient.publish('/url', CurrentURL)
   end
 end
+
+set :public, File.dirname(__FILE__) + '/public'
 
 get '/' do
   erb :index

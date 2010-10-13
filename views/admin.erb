@@ -25,17 +25,23 @@
   <input id="button" type="submit" value="G&aring;">
 </form>
 
+<img src="/spinner.gif" id="spinner" style="display:none">
+
 <script src="/faye.js"></script>
 <script>
+  var spinner = document.getElementById("spinner");
+
   Faye.WebSocketTransport.isUsable = function() { return false }
   var url = document.getElementById('url');
   var client = new Faye.Client('/faye', { timeout: 30 });
 
   client.subscribe('/url', function(msg) {
+    spinner.style.display = "none";
     url.value = msg.address;
   });
 
   function update_devices() {
+    spinner.style.display = "block";
     client.publish('/update_devices', { address: url.value });
   }
 </script>
