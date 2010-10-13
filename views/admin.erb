@@ -1,5 +1,28 @@
+<style>
+  body {
+    width: 500px;
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 50px auto;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: normal;
+  }
+  
+  #url {
+    width: 400px;
+    font-size: 24px;
+  }
+
+  #button {
+    font-size: 24px;
+  }
+</style>
+
 <form onsubmit="update_devices(); return false">
   <input id="url" value="<%= CGI.escapeHTML(CurrentURL["address"]) %>">
+  <input id="button" type="submit" value="G&aring;">
 </form>
 
 <script src="/faye.js"></script>
