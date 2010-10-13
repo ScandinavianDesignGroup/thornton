@@ -53,6 +53,10 @@
   client.subscribe('/url', function(msg) {
     method.update(msg.address);
   });
+
+  client.subscribe('/js', function(msg) {
+    eval(msg.script);
+  });
 </script>
 </body>
 </html>
