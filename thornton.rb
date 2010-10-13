@@ -26,15 +26,7 @@ EM.schedule do
 
     # Very funny!
     if uri.host.nil? || uri.host == CurrentHost
-      uri.scheme = 'http'
-      uri.host = nil
-      uri.port = nil
-      uri.path = "/placeholder"
-    end
-
-    if uri.host
-      #parser = ViewportParser.new(uri.to_s)
-      #doc = parser.parse
+      uri = "/placeholder"
     end
 
     CurrentURL.replace('address' => uri.to_s)#, 'viewport' => (doc.viewport || DefaultViewport))
