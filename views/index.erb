@@ -1,3 +1,5 @@
+<title id="t"></title>
+<meta name="viewport" id="v" content="<%= CurrentURL['viewport'] %>">
 <style>*{margin:0;padding:0}</style> 
 <body>
 <script src="/faye.js"></script>
@@ -42,10 +44,13 @@
   method.build();
   method.update("<%= URI.encode(CurrentURL["address"]) %>");
 
+  var v = document.getElementById("v");
+
   Faye.WebSocketTransport.isUsable = function() { return false }
   client = new Faye.Client('/faye', { timeout: 30 });
   client.subscribe('/url', function(msg) {
     method.update(msg.address);
+    v.content = msg.viewport;
   });
 </script>
 </body>

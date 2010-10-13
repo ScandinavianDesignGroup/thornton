@@ -6,3 +6,6 @@ gem "sinatra"
 # Pub/sub
 gem "faye"
 
+# Viewport Parser
+gem "nokogiri"
+
