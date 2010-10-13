@@ -8,8 +8,9 @@ require 'sinatra'
 
 require './viewport-parser'
 
+DefaultViewport = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 CurrentHost = ""
-CurrentURL = { 'address' => '/placeholder' }
+CurrentURL = { 'address' => '/placeholder', 'viewport' => DefaultViewport }
 FayeServer = Faye::RackAdapter.new(Sinatra::Application, :mount => '/faye', :timeout => 20)
 FayeClient = FayeServer.get_client
 
@@ -36,7 +37,7 @@ EM.schedule do
       doc = parser.parse
     end
 
-    CurrentURL.replace('address' => uri.to_s, 'viewport' => doc.viewport.to_s)
+    CurrentURL.replace('address' => uri.to_s, 'viewport' => (doc.viewport || DefaultViewport))
     FayeClient.publish('/url', CurrentURL)
   end
 end
