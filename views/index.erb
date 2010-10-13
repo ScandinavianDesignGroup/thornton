@@ -26,13 +26,24 @@
 
   var frameset = {
     build: function() {
-      var frame = document.createElement('frame');
+      // Frameset
       var fs = document.createElement('frameset');
+      fs.setAttribute('rows', '20,*');
       fs.setAttribute('frameborder', '0');
-      fs.appendChild(frame);
       document.body.appendChild(fs);
-      this.f = frame;
+
+      // Helper
+      var helper = document.createElement('frame');
+      helper.src = '/helper.html';
+      fs.appendChild(helper);
+      this.h = helper;
+      
+      // Frame
+      var frame = document.createElement('frame');
+      fs.appendChild(frame);
       frame.onload = function() { v.content = "" };
+
+      this.f = frame;
     },
 
     update: function(address) {
@@ -44,15 +55,28 @@
     return frameset;
   }
 
+
   var method = detectMethod();
+  var currentPage = "<%= URI.encode(CurrentURL["address"]) %>";
+  var currentWindow;
   method.build();
-  method.update("<%= URI.encode(CurrentURL["address"]) %>");
+  method.update(currentPage);
 
   Faye.WebSocketTransport.isUsable = function() { return false }
   client = new Faye.Client('/faye', { timeout: 30 });
   client.subscribe('/url', function(msg) {
+    if (currentWindow) {
+      currentWindow.close()
+      currentWindow = null;
+    }
+
+    currentPage = msg.address;
     method.update(msg.address);
   });
+
+  window.openPage = function() {
+    currentWindow = window.open(currentPage);
+  }
 
   client.subscribe('/js', function(msg) {
     eval(msg.script);
