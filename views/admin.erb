@@ -27,6 +27,7 @@
 
 <script src="/faye.js"></script>
 <script>
+  Faye.WebSocketTransport.isUsable = function() { return false }
   var url = document.getElementById('url');
   var client = new Faye.Client('/faye', { timeout: 30 });
 
