@@ -1,5 +1,5 @@
 <form onsubmit="update_devices(); return false">
-  <input id="url" name="<%= CGI.escapeHTML(CurrentURL["address"]) %>">
+  <input id="url" value="<%= CGI.escapeHTML(CurrentURL["address"]) %>">
 </form>
 
 <script src="/faye.js"></script>
