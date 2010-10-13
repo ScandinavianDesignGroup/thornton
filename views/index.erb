@@ -1,13 +1,20 @@
-<title id="t"></title>
-<meta name="viewport" id="v" content="<%= CurrentURL['viewport'] %>">
-<style>*{margin:0;padding:0}</style> 
+<html>
+<head>
+  <title id="t"></title>
+  <meta name="viewport" id="v" content="width=device-width, user-scalable=1">
+  <style>
+    *{margin:0;padding:0}
+  </style> 
+</head>
 <body>
 <script src="/faye.js"></script>
 <script>
+  var v = document.getElementById("v");
+
   var iframe = {
     build: function() {
       var iframe = document.createElement('iframe');
-      iframe.setAttribute('style', 'width:100%;border:0');
+      iframe.setAttribute('style', 'width:320px;border:0');
       document.body.appendChild(iframe);
       this.i = iframe;
     },
@@ -24,7 +31,8 @@
       fs.setAttribute('frameborder', '0');
       fs.appendChild(frame);
       document.body.appendChild(fs);
-      this.f = frame;
+      this.fs = fs;
+      frame.onload = function() { v.content = "" };
     },
 
     update: function(address) {
@@ -33,24 +41,18 @@
   };
 
   function detectMethod() {
-    if (navigator.userAgent.match('Android')) {
-      return iframe;
-    } else {
-      return frameset;
-    }
+    return frameset;
   }
 
   var method = detectMethod();
   method.build();
   method.update("<%= URI.encode(CurrentURL["address"]) %>");
 
-  var v = document.getElementById("v");
-
   Faye.WebSocketTransport.isUsable = function() { return false }
   client = new Faye.Client('/faye', { timeout: 30 });
   client.subscribe('/url', function(msg) {
     method.update(msg.address);
-    v.content = msg.viewport;
   });
 </script>
 </body>
+</html>

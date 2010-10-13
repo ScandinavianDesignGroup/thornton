@@ -33,11 +33,11 @@ EM.schedule do
     end
 
     if uri.host
-      parser = ViewportParser.new(uri.to_s)
-      doc = parser.parse
+      #parser = ViewportParser.new(uri.to_s)
+      #doc = parser.parse
     end
 
-    CurrentURL.replace('address' => uri.to_s, 'viewport' => (doc.viewport || DefaultViewport))
+    CurrentURL.replace('address' => uri.to_s)#, 'viewport' => (doc.viewport || DefaultViewport))
     FayeClient.publish('/url', CurrentURL)
   end
 end
