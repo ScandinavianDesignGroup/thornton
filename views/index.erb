@@ -42,7 +42,6 @@
   method.build();
   method.update("<%= URI.encode(CurrentURL["address"]) %>");
 
-  Faye.WebSocketTransport.isUsable = function() { return false }
   client = new Faye.Client('/faye', { timeout: 30 });
   client.subscribe('/url', function(msg) {
     method.update(msg.address);
